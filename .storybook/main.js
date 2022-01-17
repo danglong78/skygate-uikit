@@ -1,0 +1,31 @@
+const path = require('path');
+const baseDir = path.resolve(__dirname, '../src');
+
+module.exports = {
+  "stories": [
+    "../src/**/*.stories.mdx",
+    "../src/**/*.stories.@(js|jsx|ts|tsx)"
+  ],
+  "addons": [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/preset-create-react-app"
+  ],
+  "framework": "@storybook/react",
+  "core": {
+    "builder": "webpack5"
+  },
+  webpackFinal: async (config, { configType }) => {
+    // config.module.rules.concat(custom.module.rules);
+    config.resolve.modules.push(baseDir);
+    config.resolve.alias = {
+      components: path.resolve(baseDir, 'components/'),
+      constants: path.resolve(baseDir, 'constants/'),
+      containers: path.resolve(baseDir, 'containers/'),
+    };
+
+
+    // Return the altered config
+    return config;
+  },
+}
